@@ -5,10 +5,13 @@ import com.umeng.commonsdk.UMConfigure
 import com.umeng.socialize.PlatformConfig
 
 class MainApplication : Application() {
+    companion object {
+        lateinit var context: Application
+    }
 
     override fun onCreate() {
         super.onCreate()
-
+        MainApplication.context = this
 
         //初始化组件化基础库, 统计SDK/推送SDK/分享SDK都必须调用此初始化接口
         UMConfigure.init(
