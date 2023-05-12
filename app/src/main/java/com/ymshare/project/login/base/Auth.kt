@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Observable
 
 interface Auth {
 
-    fun auth(activity: Activity): Observable<LoginAuthResult>
+    fun auth(activity: Activity): Observable<out AuthModel>
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {}
 

@@ -1,4 +1,4 @@
-package com.ymshare.project.wxapi
+package com.meelive.ingkee.wxapi
 
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +10,10 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import com.ymshare.project.login.base.AuthModel
+import com.ymshare.project.login.base.AuthModel.WXAuthModel.Companion
+import com.ymshare.project.login.base.AuthModel.WXAuthModel.Companion.ERROR_CANCEL
+import org.greenrobot.eventbus.EventBus
 
 
 class WXEntryActivity : Activity(), IWXAPIEventHandler {
@@ -42,10 +46,18 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
         when (resp.errCode) {
             BaseResp.ErrCode.ERR_OK -> {
                 // 获取code
-                val code = (resp as SendAuth.Resp).code
-                // 通过code获取授权口令access_token
-//                getAccessToken(code)
+                val response = resp as SendAuth.Resp
+                val code = response.code
+                val state = response.state
+                val country = response.country
+                val language = response.lang
+                EventBus.getDefault().post(AuthModel.WXAuthModel(code, state, language, country))
+            }
+            else -> {
+                EventBus.getDefault().post(AuthModel.WXAuthModel(ERROR_CANCEL,
+                    "", "", ""))
             }
         }
+        finish()
     }
 }

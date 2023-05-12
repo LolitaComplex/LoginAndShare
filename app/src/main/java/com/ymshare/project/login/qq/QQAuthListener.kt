@@ -1,18 +1,19 @@
 package com.ymshare.project.login.qq
 
+import android.util.Log
 import com.tencent.connect.common.Constants
 import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent
 import com.tencent.tauth.UiError
 import com.ymshare.project.login.base.AuthException
-import com.ymshare.project.login.entity.LoginAuthResult
+import com.ymshare.project.login.base.AuthModel
 import io.reactivex.rxjava3.core.ObservableEmitter
 import org.json.JSONException
 import org.json.JSONObject
 
 
-class QQAuthListener(private var mSubscriber: ObservableEmitter<LoginAuthResult>,
-     private val mTencent: Tencent) : IUiListener {
+class QQAuthListener(private var mSubscriber: ObservableEmitter<AuthModel.QQAuthModel>,
+         private val mTencent: Tencent) : IUiListener {
 
     override fun onComplete(response: Any?) {
         if (response !is JSONObject || response.length() == 0) {
@@ -31,6 +32,9 @@ class QQAuthListener(private var mSubscriber: ObservableEmitter<LoginAuthResult>
                 mTencent.setAccessToken(token, expires)
                 mTencent.openId = openId
             }
+
+            mSubscriber.onNext(AuthModel.QQAuthModel(token, expires, openId))
+            mSubscriber.onComplete()
         } catch (e: JSONException) {
             mSubscriber.onError(AuthException(AuthException.ERROR_AUTH, "解析Json有误，授权失败", e))
         }
@@ -51,5 +55,6 @@ class QQAuthListener(private var mSubscriber: ObservableEmitter<LoginAuthResult>
     }
 
     override fun onWarning(p0: Int) {
+        Log.d("Doing", "onWarning $p0")
     }
 }

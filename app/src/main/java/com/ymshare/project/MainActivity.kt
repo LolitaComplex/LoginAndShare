@@ -1,16 +1,12 @@
 package com.ymshare.project
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.umeng.socialize.ShareAction
-import com.umeng.socialize.UMShareListener
 import com.ymshare.project.login.service.LoginPresenter
 
 class MainActivity : AppCompatActivity() {
-
-    private var mShareListener: UMShareListener? = null
-    private var mShareAction: ShareAction? = null
 
     private val mPresenter by lazy { LoginPresenter() }
 
@@ -41,5 +37,15 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_share_qq_circle).setOnClickListener {
 
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        mPresenter.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.onDestroy()
     }
 }

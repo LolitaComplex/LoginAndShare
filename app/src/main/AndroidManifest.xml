@@ -31,7 +31,7 @@
 
 
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.meelive.ingkee.wxapi.WXEntryActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
@@ -41,12 +41,13 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:noHistory="true"
+            android:exported="true"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent你的AppId" />
+                <data android:scheme="1104658198" />
             </intent-filter>
         </activity>
         <activity
