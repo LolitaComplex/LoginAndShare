@@ -17,4 +17,11 @@ sealed class AuthModel {
         val expires: String,
         val openId: String
     ) : AuthModel()
+
+    data class SinaAuthModel(
+        val accessToken: String,
+        val openId: String,
+        val expiresTime: Long,
+        val screenName: String
+    ) : AuthModel()
 }

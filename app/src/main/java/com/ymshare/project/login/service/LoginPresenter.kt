@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import com.ymshare.project.MainApplication
 import com.ymshare.project.login.qq.QQAuth
+import com.ymshare.project.login.sina.SinaAuth
 import com.ymshare.project.login.wx.WeChatAuth
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -14,8 +15,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class LoginPresenter {
 
     private val service by lazy { LoginService() }
-    private val weChatAuth by lazy { WeChatAuth() }
+    private val wxAuth by lazy { WeChatAuth() }
     private val qqAuth by lazy { QQAuth() }
+    private val sinaAuth by lazy { SinaAuth() }
 
     @JvmInline
     value class LoginType(val type: Int)
@@ -24,7 +26,7 @@ class LoginPresenter {
         private val LOGIN_TYPE_NONE = LoginType(0)
         private val LOGIN_TYPE_WX = LoginType(1)
         private val LOGIN_TYPE_QQ = LoginType(2)
-        private val LOGIN_TYPE_WeiBo = LoginType(3)
+        private val LOGIN_TYPE_SINA = LoginType(3)
     }
 
     private var mCurrentLoginType = LOGIN_TYPE_NONE
@@ -32,7 +34,7 @@ class LoginPresenter {
     private val mDisposable = CompositeDisposable()
 
     fun loginWeChat(activity: Activity) {
-        val disposable = weChatAuth.auth(activity)
+        val disposable = wxAuth.auth(activity)
             .doOnSubscribe { setCurrentType(LOGIN_TYPE_WX) }
             .doFinally { setCurrentType(LOGIN_TYPE_NONE) }
             .subscribeOn(Schedulers.io())
@@ -67,17 +69,33 @@ class LoginPresenter {
         mDisposable.add(disposable)
     }
 
+    fun loginSina(activity: Activity) {
+        val disposable = sinaAuth.auth(activity)
+            .doOnSubscribe { setCurrentType(LOGIN_TYPE_SINA) }
+            .doFinally { setCurrentType(LOGIN_TYPE_NONE) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                Log.d("Doing", "Result: $result")
+                Toast.makeText(MainApplication.context, "Result: $result", Toast.LENGTH_LONG).show()
+            }, {error ->
+                Log.e("Doing", "Sina登陆失败", error)
+            })
+
+        mDisposable.add(disposable)
+    }
+
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val type = mCurrentLoginType
         when (type) {
-            LOGIN_TYPE_WX ->{
-                weChatAuth.onActivityResult(requestCode, resultCode, data)
+            LOGIN_TYPE_WX -> {
+                wxAuth.onActivityResult(requestCode, resultCode, data)
             }
             LOGIN_TYPE_QQ -> {
                 qqAuth.onActivityResult(requestCode, resultCode, data)
             }
-            LOGIN_TYPE_WeiBo -> {
-
+            LOGIN_TYPE_SINA -> {
+                sinaAuth.onActivityResult(requestCode, resultCode, data)
             }
         }
     }
@@ -87,11 +105,11 @@ class LoginPresenter {
     }
 
     fun isWxInstall(): Boolean {
-        return weChatAuth.isInstalled()
+        return wxAuth.isInstalled()
     }
 
     fun isWeiboInstall(): Boolean {
-        return false
+        return sinaAuth.isInstalled()
     }
 
     fun getLoginType(): LoginType {

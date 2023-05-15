@@ -5,11 +5,10 @@ import android.util.Log
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.ymshare.project.MainApplication
-import com.ymshare.project.login.LoginAccount
+import com.ymshare.project.login.PartyAccount
 import com.ymshare.project.login.base.Auth
 import com.ymshare.project.login.base.AuthException
 import com.ymshare.project.login.base.AuthModel
-import com.ymshare.project.login.entity.LoginAuthResult
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
 import org.greenrobot.eventbus.EventBus
@@ -18,7 +17,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 class WeChatAuth : Auth {
 
-    private val mWxApi = WXAPIFactory.createWXAPI(MainApplication.context, LoginAccount.WX_APP_ID)
+    private val mWxApi = WXAPIFactory.createWXAPI(MainApplication.context, PartyAccount.WX_APP_ID)
 
     private var mSubscriber : ObservableEmitter<AuthModel.WXAuthModel>? = null
 
@@ -29,7 +28,7 @@ class WeChatAuth : Auth {
             return Observable.error(AuthException(AuthException.ERROR_UNINSTALL, "未安装微信"))
         }
 
-        var success: Boolean = api.registerApp(LoginAccount.WX_APP_ID)
+        var success: Boolean = api.registerApp(PartyAccount.WX_APP_ID)
         if (!success) {
             return Observable.error(AuthException(AuthException.ERROR_AUTH, "微信授权失败"))
         }
