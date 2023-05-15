@@ -10,6 +10,7 @@ import com.tencent.mm.opensdk.modelmsg.WXTextObject
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.ymshare.project.login.PartyAccount
 import com.ymshare.project.login.service.LoginPresenter
+import com.ymshare.project.share.ShareHandler
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,27 +34,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_share_wechat).setOnClickListener {
-            //初始化一个 WXTextObject 对象，填写分享的文本内容
-            val textObj = WXTextObject()
-            textObj.text = "测试文本，哈哈哈哈"
-
-            //用 WXTextObject 对象初始化一个 WXMediaMessage 对象
-            val msg = WXMediaMessage()
-            msg.mediaObject = textObj
-            msg.description = "描述信息"
-
-            val req = SendMessageToWX.Req()
-            req.transaction = ""
-            req.message = msg
-            req.scene = SendMessageToWX.Req.WXSceneSession
-            //调用api接口，发送数据到微信
-            val api = WXAPIFactory.createWXAPI(MainApplication.context, PartyAccount.WX_APP_ID)
-            api.sendReq(req)
-            
+            ShareHandler.wxChat()
+                .text("测试文本，哈哈哈哈")
+                .description("描述信息")
+                .build()
+                .share()
         }
 
         findViewById<Button>(R.id.btn_share_wechat_circle).setOnClickListener {
-            
 
         }
 
