@@ -1,4 +1,4 @@
-package com.ymshare.project.login.sina
+package com.ymshare.project.login.auth.sina
 
 import android.app.Activity
 import android.content.Intent

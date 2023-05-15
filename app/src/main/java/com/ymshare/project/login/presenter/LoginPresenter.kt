@@ -1,13 +1,14 @@
-package com.ymshare.project.login.service
+package com.ymshare.project.login.presenter
 
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.ymshare.project.MainApplication
-import com.ymshare.project.login.qq.QQAuth
-import com.ymshare.project.login.sina.SinaAuth
-import com.ymshare.project.login.wx.WeChatAuth
+import com.ymshare.project.login.auth.qq.QQAuth
+import com.ymshare.project.login.auth.sina.SinaAuth
+import com.ymshare.project.login.auth.wx.WeChatAuth
+import com.ymshare.project.login.service.LoginService
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers

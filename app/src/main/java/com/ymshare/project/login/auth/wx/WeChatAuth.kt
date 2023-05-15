@@ -1,4 +1,4 @@
-package com.ymshare.project.login.wx
+package com.ymshare.project.login.auth.wx
 
 import android.app.Activity
 import android.util.Log

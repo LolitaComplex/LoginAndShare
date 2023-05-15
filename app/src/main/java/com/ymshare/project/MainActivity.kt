@@ -4,12 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
-import com.tencent.mm.opensdk.modelmsg.WXTextObject
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
-import com.ymshare.project.login.PartyAccount
-import com.ymshare.project.login.service.LoginPresenter
+import com.ymshare.project.login.presenter.LoginPresenter
 import com.ymshare.project.share.ShareHandler
 
 

@@ -1,4 +1,4 @@
-package com.ymshare.project.login.sina
+package com.ymshare.project.login.auth.sina
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken
 import com.sina.weibo.sdk.auth.WbAuthListener

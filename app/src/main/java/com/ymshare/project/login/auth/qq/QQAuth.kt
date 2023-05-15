@@ -1,4 +1,4 @@
-package com.ymshare.project.login.qq
+package com.ymshare.project.login.auth.qq
 
 import android.app.Activity
 import android.content.Intent
