@@ -39,17 +39,6 @@ android {
             storePassword keyProperties["debugStorePassword"]
             keyPassword keyProperties["debugKeyPassword"]
         }
-
-        release {
-            // release版本使用assert确保存在该属性否则报错，避免错误打包
-            assert keyProperties['releaseStoreFile']
-            storeFile file("${project.projectDir.absolutePath}" + keyProperties["releaseStoreFile"])
-            keyAlias keyProperties["releaseKeyAlias"]
-            storePassword keyProperties["releaseStorePassword"]
-            keyPassword keyProperties["releaseKeyPassword"]
-            // 禁止v2签名
-            v2SigningEnabled false
-        }
     }
 
 
